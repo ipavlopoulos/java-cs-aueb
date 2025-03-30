@@ -1,11 +1,11 @@
-package montyhall.app;
+package randomdemo;
 
 import java.util.Random;
 
 /**
  * Demonstrates and compares Math.random() and Random class in Java.
  */
-public class RandomComparison {
+public class Test {
 
     public static void main(String[] args) {
         System.out.println("=== Using Math.random() ===");

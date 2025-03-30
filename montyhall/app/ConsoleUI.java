@@ -7,7 +7,7 @@ import java.util.Scanner;
  * Εκκίνηση της εφαρμογής Monty Hall με αλληλεπίδραση χρήστη.
  * Ο χρήστης διαλέγει πόρτα, και στη συνέχεια επιλέγει αν θα αλλάξει ή όχι.
  */
-public class Main {
+public class ConsoleUI {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
