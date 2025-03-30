@@ -1,4 +1,4 @@
-package model;
+package montyhall.model;
 
 public class Door {
     // todo: can these fields be final?

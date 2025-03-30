@@ -1,7 +1,7 @@
-package strategy;
+package montyhall.strategy;
 
 /**
- * A strategy where the player switches to the remaining unopened door.
+ * A montyhall.strategy where the player switches to the remaining unopened door.
  */
 public class SwitchStrategy implements Strategy {
     @Override

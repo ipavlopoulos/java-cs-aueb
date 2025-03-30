@@ -1,7 +1,7 @@
-package strategy;
+package montyhall.strategy;
 
 /**
- * A strategy where the player sticks with their original choice.
+ * A montyhall.strategy where the player sticks with their original choice.
  */
 public class StayStrategy implements Strategy {
     @Override

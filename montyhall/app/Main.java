@@ -1,6 +1,6 @@
-package app;
+package montyhall.app;
 
-import logic.MontyHallGame;
+import montyhall.logic.MontyHallGame;
 import java.util.Scanner;
 
 /**

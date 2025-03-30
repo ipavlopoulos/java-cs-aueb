@@ -1,6 +1,6 @@
-package simulation;
+package montyhall.simulation;
 
-import strategy.Strategy;
+import montyhall.strategy.Strategy;
 
 import java.util.Random;
 
@@ -27,8 +27,8 @@ public class MontyHallTrial {
     }
 
     /**
-     * Plays the trial with a given strategy.
-     * @param strategy the strategy to apply
+     * Plays the trial with a given montyhall.strategy.
+     * @param strategy the montyhall.strategy to apply
      * @return true if the player wins, false otherwise
      */
     public boolean play(Strategy strategy) {

@@ -1,4 +1,4 @@
-package app;
+package montyhall.app;
 
 import java.util.Random;
 

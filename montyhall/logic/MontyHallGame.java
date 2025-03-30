@@ -1,6 +1,6 @@
-package logic;
+package montyhall.logic;
 
-import model.Door;
+import montyhall.model.Door;
 import java.util.Random;
 
 /**

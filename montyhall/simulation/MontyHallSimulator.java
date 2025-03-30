@@ -1,8 +1,8 @@
-package simulation;
+package montyhall.simulation;
 
-import strategy.StayStrategy;
-import strategy.Strategy;
-import strategy.SwitchStrategy;
+import montyhall.strategy.StayStrategy;
+import montyhall.strategy.Strategy;
+import montyhall.strategy.SwitchStrategy;
 
 /**
  * Runs multiple Monty Hall simulations to evaluate strategies.
@@ -15,10 +15,10 @@ public class MontyHallSimulator {
     }
 
     /**
-     * Runs a given strategy multiple times and prints the results.
-     * @param strategy the strategy to test
+     * Runs a given montyhall.strategy multiple times and prints the results.
+     * @param strategy the montyhall.strategy to test
      * @param times number of trials to run
-     * @param label description label for the strategy
+     * @param label description label for the montyhall.strategy
      */
     public static void runSimulation(Strategy strategy, int times, String label) {
         int wins = 0;

@@ -1,3 +1,5 @@
+package montyhall;
+
 import java.util.Random;
 
 // todo: switch to OOP design
