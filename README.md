@@ -78,3 +78,8 @@ java montyhall.app.Main
 # Or run another example
 javac randomdemo/RandomComparison.java
 java randomdemo.RandomComparison
+```
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
