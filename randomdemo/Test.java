@@ -9,7 +9,7 @@ public class Test {
 
     public static void main(String[] args) {
         System.out.println("=== Using Math.random() ===");
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 10; i++) {
             double randValue = Math.random(); // [0.0, 1.0)
             int door = (int) (randValue * 3); // 0, 1, 2
             System.out.printf("Random double: %.4f → door %d%n", randValue, door);
@@ -17,7 +17,7 @@ public class Test {
 
         System.out.println("\n=== Using Random class ===");
         Random rand = new Random(); // no seed: different each time
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 10; i++) {
             int door = rand.nextInt(3); // 0, 1, 2
             System.out.println("Random door: " + door);
         }
