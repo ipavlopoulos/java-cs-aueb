@@ -1,0 +1,83 @@
+package walkroute;
+
+public class WalkRoute {
+    private RouteNode start;
+
+    // Προσθήκη σημείου στο τέλος της διαδρομής
+    public void addStep(String location) {
+        if (start == null) {
+            start = new RouteNode(location);
+        } else {
+            RouteNode current = start;
+            while (current.next != null) {
+                current = current.next;
+            }
+            current.next = new RouteNode(location);
+        }
+    }
+
+    // Εκτύπωση της διαδρομής
+    public void printRoute() {
+        if (start == null) {
+            System.out.println("Route is empty.");
+            return;
+        }
+
+        RouteNode current = start;
+        System.out.print("Route: ");
+        while (current != null) {
+            System.out.print(current.location);
+            if (current.next != null) System.out.print(" → ");
+            current = current.next;
+        }
+        System.out.println();
+    }
+
+    // Αφαίρεση σημείου από τη διαδρομή (π.χ. λόγω εμποδίου)
+    public void avoidStep(String location) {
+        if (start == null) return;
+
+        if (start.location.equals(location)) {
+            start = start.next;
+            return;
+        }
+
+        RouteNode prev = start;
+        RouteNode current = start.next;
+
+        while (current != null) {
+            if (current.location.equals(location)) {
+                prev.next = current.next;
+                return;
+            }
+            prev = current;
+            current = current.next;
+        }
+    }
+
+    // Παρεμβολή σημείου πριν από συγκεκριμένο άλλο σημείο
+    public void insertBefore(String target, String newStep) {
+        if (start == null) return;
+
+        if (start.location.equals(target)) {
+            RouteNode newNode = new RouteNode(newStep);
+            newNode.next = start;
+            start = newNode;
+            return;
+        }
+
+        RouteNode prev = start;
+        RouteNode current = start.next;
+
+        while (current != null) {
+            if (current.location.equals(target)) {
+                RouteNode newNode = new RouteNode(newStep);
+                newNode.next = current;
+                prev.next = newNode;
+                return;
+            }
+            prev = current;
+            current = current.next;
+        }
+    }
+}
