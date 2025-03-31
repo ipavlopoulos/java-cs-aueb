@@ -1,4 +1,7 @@
-# Java Examples Collection for the AUEB BSc Java Course
+# Java Examples Collection
+
+> Designed for the AUEB CS BSc Java Course
+>> https://eclass.aueb.gr/courses/INF176/
 
 This repository contains a collection of Java programming examples used for teaching core object-oriented programming (OOP) concepts in an engaging and applied way. Each example is organized as a separate package/module, and includes working code, documentation, and console interaction.
 
@@ -75,3 +78,8 @@ java montyhall.app.Main
 # Or run another example
 javac randomdemo/RandomComparison.java
 java randomdemo.RandomComparison
+```
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
