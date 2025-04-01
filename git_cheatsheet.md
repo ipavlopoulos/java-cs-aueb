@@ -1,6 +1,6 @@
 # Git & GitHub Cheatsheet for Beginners
 
-Assuming that you have [installed git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git):
+> Written by [dmarakom6](https://github.com/dmarakom6) and assuming that you have [installed git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 
 ## Setup
 ```bash
@@ -117,8 +117,4 @@ git merge upstream/main
 - Pull before pushing to avoid conflicts (or just do `git push --force`)
 - Use `git diff` or `git status` to see changes before committing
 
-
-
-
-#
 ***Thanks for reading!***
