@@ -11,8 +11,6 @@ Each top-level package contains a complete, runnable Java example:
 
 ---
 
-## 📦 Examples Included
-
 ### 🎲 `montyhall/`
 
 A full implementation of the Monty Hall game:
@@ -66,7 +64,7 @@ Loads movie reviews from a file and filters recommendations by genre, rating, or
 
 ---
 
-## 🧪 How to Run
+# 🧪 How to Run
 
 Use the terminal or your favorite IDE (e.g., IntelliJ, Eclipse):
 
@@ -80,10 +78,10 @@ javac randomdemo/RandomComparison.java
 java randomdemo.RandomComparison
 ```
 
-## ✏️ Contribution 
+# ✏️ Contribution 
 
 To contribute to this repo, [this cheatsheet](/git_cheatsheet.md) may help with the first steps. 
 
-## 📄 License
+# 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
