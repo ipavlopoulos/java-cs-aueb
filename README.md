@@ -80,7 +80,9 @@ javac randomdemo/RandomComparison.java
 java randomdemo.RandomComparison
 ```
 
-> To contribute to this repo, [this cheatsheet](/git_cheatsheet.md) may help with the first steps. 
+## ✏️ Contribution 
+
+To contribute to this repo, [this cheatsheet](/git_cheatsheet.md) may help with the first steps. 
 
 ## 📄 License
 
