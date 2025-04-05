@@ -38,11 +38,15 @@ public class MontyHallGame {
 
     /**
      * 
-     * Setter for the door the host opens.
+     * Getter and Setter for the door the host opens.
      * 
      */
     public void setHostOpens(int hostOpens) {
         this.hostOpens = hostOpens;
+    }
+
+    public int getHostOpens() {
+        return hostOpens;
     }
 
     /**

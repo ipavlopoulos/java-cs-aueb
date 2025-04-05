@@ -23,8 +23,7 @@ public class ConsoleUI {
         game.hostOpensDoor();
 
         // Εμφάνιση πόρτας που άνοιξε ο παρουσιαστής
-        // todo: show which door the presenter opened
-        // System.out.println("Ο παρουσιαστής άνοιξε την πόρτα: " + [FILL IN]);
+        System.out.println("Ο παρουσιαστής άνοιξε την πόρτα: " + game.getHostOpens());
 
         // Ο χρήστης επιλέγει αν θα αλλάξει επιλογή
         System.out.println("Θες να αλλάξεις επιλογή; (ν/ο): ");
