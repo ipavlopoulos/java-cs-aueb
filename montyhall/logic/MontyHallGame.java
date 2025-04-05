@@ -9,9 +9,8 @@ import java.util.Random;
  * allows the player to choose, and the host to open a door.
  */
 public class MontyHallGame {
-    // todo: create getters/setters
 
-    private Door[] doors;
+    private Door[] doors; // Array of Door objects representing the doors in the game
     private int playerChoice;
     private int hostOpens;
 
@@ -38,6 +37,15 @@ public class MontyHallGame {
     }
 
     /**
+     * 
+     * Setter for the door the host opens.
+     * 
+     */
+    public void setHostOpens(int hostOpens) {
+        this.hostOpens = hostOpens;
+    }
+
+    /**
      * The host opens one of the doors that was not chosen by the player
      * and does not contain the prize.
      * The door is marked as open and stored for reference.
@@ -46,7 +54,7 @@ public class MontyHallGame {
         for (int i = 0; i < 3; i++) {
             if (i != playerChoice && !doors[i].hasPrize()) {
                 doors[i].open();
-                hostOpens = i;
+                setHostOpens(i);
                 break;
             }
         }
