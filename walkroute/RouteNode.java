@@ -8,4 +8,8 @@ public class RouteNode {
         this.location = location;
         this.next = null;
     }
+
+    public String toString() {
+        return "My location is " + location;
+    }
 }

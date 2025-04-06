@@ -11,8 +11,6 @@ Each top-level package contains a complete, runnable Java example:
 
 ---
 
-## 📦 Examples Included
-
 ### 🎲 `montyhall/`
 
 A full implementation of the Monty Hall game:
@@ -79,6 +77,10 @@ java montyhall.app.Main
 javac randomdemo/RandomComparison.java
 java randomdemo.RandomComparison
 ```
+
+## ✏️ Contribution 
+
+To contribute to this repo, [this cheatsheet](/git_cheatsheet.md) may help with the first steps. 
 
 ## 📄 License
 
