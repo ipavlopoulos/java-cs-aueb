@@ -42,7 +42,9 @@ public class MontyHallGame {
      * 
      */
     public void setHostOpens(int hostOpens) {
-        this.hostOpens = hostOpens;
+        if (hostOpens != playerChoice && !doors[hostOpens].hasPrize()) { // validation
+            this.hostOpens = hostOpens;
+        }
     }
 
     public int getHostOpens() {
@@ -57,9 +59,9 @@ public class MontyHallGame {
     public void hostOpensDoor() {
         for (int i = 0; i < 3; i++) {
             if (i != playerChoice && !doors[i].hasPrize()) {
-                doors[i].open();
-                setHostOpens(i);
-                break;
+                setHostOpens(i); // keep the first valid door
+                doors[i].open(); // open the door
+                break; // stop after opening one door
             }
         }
     }
