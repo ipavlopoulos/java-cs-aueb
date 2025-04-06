@@ -23,9 +23,7 @@ public class ConsoleUI {
         game.hostOpensDoor();
 
         // Εμφάνιση πόρτας που άνοιξε ο παρουσιαστής
-        // todo: show which door the presenter opened
-        //System.out.println("Ο παρουσιαστής άνοιξε την πόρτα: " + [FILL IN]);
-
+        System.out.println("Ο παρουσιαστής άνοιξε την πόρτα: " + game.getHostOpens());
 
         // Ο χρήστης επιλέγει αν θα αλλάξει επιλογή
         System.out.println("Θες να αλλάξεις επιλογή; (ν/ο): ");
@@ -35,6 +33,8 @@ public class ConsoleUI {
         boolean win = input.equalsIgnoreCase("ν")
                 ? game.switchAndCheckWin()
                 : game.stayAndCheckWin();
+
+        sc.close(); // Κλείσιμο του Scanner για αποφυγή διαρροών μνήμης.
 
         // Εκτύπωση αποτελέσματος
         System.out.println(win ? "Κέρδισες το βραβείο!" : "Έχασες!");
