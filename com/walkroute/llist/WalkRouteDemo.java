@@ -1,4 +1,4 @@
-package walkroute;
+package com.walkroute.llist;
 
 public class WalkRouteDemo {
     public static void main(String[] args) {

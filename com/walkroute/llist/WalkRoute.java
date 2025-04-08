@@ -1,4 +1,4 @@
-package walkroute;
+package com.walkroute.llist;
 
 public class WalkRoute {
     private RouteNode start;
