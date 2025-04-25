@@ -5,6 +5,7 @@ import java.util.Scanner;
 /**
  * Simple interactive demo for moving an Agent around
  * and using a stack to undo previous steps.
+ * todo: (a) add -h option (show route history), (b) utilise the map
  */
 public class InteractiveDemo {
     public static void main(String[] args) {
@@ -18,7 +19,7 @@ public class InteractiveDemo {
 
         boolean running = true;
         while (running) {
-            System.out.println("\nChoose action: (m)ove, (u)ndo, (q)uit");
+            System.out.println("\nChoose action: (m)ove, (u)ndo, (h)istory, (q)uit");
             String input = scanner.nextLine().trim().toLowerCase();
 
             switch (input) {
@@ -60,8 +61,15 @@ public class InteractiveDemo {
                     System.out.println("👋 Goodbye!");
                     break;
 
+                case "h":
+                    System.out.println("📜 Path history:");
+                    for (Location loc : agent.getPathTaken()) {
+                        System.out.println("→ " + loc);
+                    }
+                    break;
+
                 default:
-                    System.out.println("Invalid input. Use m/u/q.");
+                    System.out.println("Invalid input. Use m/u/h/q.");
             }
         }
 

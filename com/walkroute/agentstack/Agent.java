@@ -1,6 +1,8 @@
 package com.walkroute.agentstack;
 
 import java.util.Stack;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Represents a walking agent (e.g. a pedestrian) navigating through a route.
@@ -10,6 +12,7 @@ import java.util.Stack;
 public class Agent {
     private Location currentLocation;        // current position of the agent
     private Stack<Location> pathHistory;     // stack to store movement history (LIFO)
+    private List<Location> pathTaken;       // full path (including current)
 
     /**
      * Creates an agent starting at a given location.
@@ -18,6 +21,8 @@ public class Agent {
     public Agent(Location start) {
         this.currentLocation = start;
         this.pathHistory = new Stack<>();
+        this.pathTaken = new ArrayList<>();
+        this.pathTaken.add(start);
     }
 
     /**
@@ -28,6 +33,7 @@ public class Agent {
     public void moveTo(Location next) {
         pathHistory.push(currentLocation);   // store current location before moving
         currentLocation = next;
+        pathTaken.add(next);
     }
 
     /**
@@ -38,6 +44,7 @@ public class Agent {
     public Location undo() {
         if (!pathHistory.isEmpty()) {
             currentLocation = pathHistory.pop();
+            pathTaken.remove(pathTaken.size() - 1); // remove last step
         }
         return currentLocation;
     }
@@ -56,5 +63,13 @@ public class Agent {
      */
     public boolean canUndo() {
         return !pathHistory.isEmpty();
+    }
+
+    /**
+     * Returns the full path that the agent has followed.
+     * @return ordered list of visited locations
+     */
+    public List<Location> getPathTaken() {
+        return pathTaken;
     }
 }
