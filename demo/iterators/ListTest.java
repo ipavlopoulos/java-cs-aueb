@@ -1,7 +1,6 @@
 package demo.iterators;
-// Based on the example in the book of Deitel (pp 837, 9th edition)
-// https://github.com/pdeitel/JavaHowToProgram11e_EarlyObjects/blob/7bf604beb846d3bb99b52d8b330da5e354a0224a/examples/ch16/fig16_03/ListTest.java
-// Lists, LinkedLists and ListIterators.
+// Working on the example of Deitel (pp 837, 9th edition)
+// re. Lists, LinkedLists and ListIterators.
 
 import java.util.List;
 import java.util.LinkedList;
@@ -9,38 +8,51 @@ import java.util.ListIterator;
 
 public class ListTest {
     public static void main(String[] args) {
-        // add colors elements to list1
-        String[] colors =
-                {"black", "yellow", "green", "blue", "violet", "silver"};
-        List<String> list1 = new LinkedList<>();
+        // Δημιουργία ενός πίνακα με συμβολοσειρές (χρώματα)
+        String[] colors = {"black", "yellow", "green", "blue", "violet", "silver"};
+        List<String> list1 = new LinkedList<>(); // Πρώτη λίστα χρωμάτων
 
+        // Προσθήκη κάθε χρώματος στη λίστα list1
         for (String color : colors) {
             list1.add(color);
         }
 
-        // add colors2 elements to list2
-        String[] colors2 =
-                {"gold", "white", "brown", "blue", "gray", "silver"};
-        List<String> list2 = new LinkedList<>();
+        // Δημιουργία δεύτερου πίνακα με άλλα χρώματα
+        String[] colors2 = {"gold", "white", "brown", "blue", "gray", "silver"};
+        List<String> list2 = new LinkedList<>(); // Δεύτερη λίστα χρωμάτων
 
+        // Προσθήκη κάθε χρώματος στη λίστα list2
         for (String color : colors2) {
             list2.add(color);
         }
 
-        list1.addAll(list2); // concatenate lists
-        list2 = null; // release resources
-        printList(list1); // print list1 elements
+        // Συνένωση των δύο λιστών: προσθήκη όλων των στοιχείων της list2 στο τέλος της list1
+        list1.addAll(list2);
 
-        convertToUppercaseStrings(list1); // convert to uppercase string
-        printList(list1); // print list1 elements
+        // Ελευθέρωση πόρων (αναφορά του list2 στο null, επιτρέποντας Garbage Collection)
+        list2 = null;
 
+        // Εκτύπωση όλων των στοιχείων της νέας λίστας
+        printList(list1);
+
+        // Μετατροπή όλων των στοιχείων της λίστας σε κεφαλαία
+        convertToUppercaseStrings(list1);
+
+        // Εκτύπωση των στοιχείων μετά τη μετατροπή
+        printList(list1);
+
+        // Διαγραφή στοιχείων από τη θέση 4 έως 6 (inclusive [4, 7))
         System.out.printf("%nDeleting elements 4 to 6...");
-        removeItems(list1, 4, 7); // remove items 4-6 from list
-        printList(list1); // print list1 elements
-        printReversedList(list1); // print list in reverse order
+        removeItems(list1, 4, 7);
+
+        // Εκτύπωση της λίστας μετά τη διαγραφή
+        printList(list1);
+
+        // Εκτύπωση των στοιχείων της λίστας σε αντίστροφη σειρά
+        printReversedList(list1);
     }
 
-    // output List contents
+    // Μέθοδος που εκτυπώνει τα στοιχεία της λίστας στη σειρά
     private static void printList(List<String> list) {
         System.out.printf("%nlist:%n");
 
@@ -48,32 +60,32 @@ public class ListTest {
             System.out.printf("%s ", color);
         }
 
-        System.out.println();
+        System.out.println(); // Νέα γραμμή στο τέλος
     }
 
-    // locate String objects and convert to uppercase
+    // Μέθοδος που μετατρέπει κάθε στοιχείο της λίστας σε κεφαλαία γράμματα
     private static void convertToUppercaseStrings(List<String> list) {
-        ListIterator<String> iterator = list.listIterator();
+        ListIterator<String> iterator = list.listIterator(); // Δημιουργία iterator
 
+        // Διάσχιση όλων των στοιχείων
         while (iterator.hasNext()) {
-            String color = iterator.next(); // get item
-            iterator.set(color.toUpperCase()); // convert to upper case
+            String color = iterator.next(); // Λήψη του επόμενου στοιχείου
+            iterator.set(color.toUpperCase()); // Αντικατάσταση με την κεφαλαιοποιημένη μορφή
         }
     }
 
-    // obtain sublist and use clear method to delete sublist items
-    private static void removeItems(List<String> list,
-                                    int start, int end) {
-        list.subList(start, end).clear(); // remove items
+    // Μέθοδος που αφαιρεί στοιχεία από τη λίστα, χρησιμοποιώντας υπολίστα
+    private static void removeItems(List<String> list, int start, int end) {
+        list.subList(start, end).clear(); // Διαγραφή όλων των στοιχείων στη συγκεκριμένη υπολίστα
     }
 
-    // print reversed list
+    // Μέθοδος που εκτυπώνει τα στοιχεία της λίστας σε αντίστροφη σειρά
     private static void printReversedList(List<String> list) {
-        ListIterator<String> iterator = list.listIterator(list.size());
+        ListIterator<String> iterator = list.listIterator(list.size()); // Iterator ξεκινώντας από το τέλος
 
         System.out.printf("%nReversed List:%n");
 
-        // print list in reverse order
+        // Εκτύπωση των στοιχείων από το τέλος προς την αρχή
         while (iterator.hasPrevious()) {
             System.out.printf("%s ", iterator.previous());
         }
