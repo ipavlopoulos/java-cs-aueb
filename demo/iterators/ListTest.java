@@ -12,7 +12,7 @@ public class ListTest {
         String[] colors = {"black", "yellow", "green", "blue", "violet", "silver"};
         List<String> list1 = new LinkedList<>(); // Πρώτη λίστα χρωμάτων
 
-        // Προσθήκη κάθε χρώματος στη λίστα list1
+        // Προσθήκη κάθε χρώματος στη λίστα list1 (todo: bulk?)
         for (String color : colors) {
             list1.add(color);
         }
@@ -21,7 +21,7 @@ public class ListTest {
         String[] colors2 = {"gold", "white", "brown", "blue", "gray", "silver"};
         List<String> list2 = new LinkedList<>(); // Δεύτερη λίστα χρωμάτων
 
-        // Προσθήκη κάθε χρώματος στη λίστα list2
+        // Προσθήκη κάθε χρώματος στη λίστα list2 (todo: bulk?)
         for (String color : colors2) {
             list2.add(color);
         }
@@ -29,7 +29,7 @@ public class ListTest {
         // Συνένωση των δύο λιστών: προσθήκη όλων των στοιχείων της list2 στο τέλος της list1
         list1.addAll(list2);
 
-        // Ελευθέρωση πόρων (αναφορά του list2 στο null, επιτρέποντας Garbage Collection)
+        // Ελευθέρωση πόρων (αναφορά του list2 στο null, επιτρέποντας Garbage Collection) (todo: delete?)
         list2 = null;
 
         // Εκτύπωση όλων των στοιχείων της νέας λίστας
