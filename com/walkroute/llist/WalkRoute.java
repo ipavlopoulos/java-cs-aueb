@@ -2,6 +2,19 @@ package com.walkroute.llist;
 
 public class WalkRoute {
     private RouteNode start;
+    public boolean verbose;
+
+    WalkRoute(boolean verbose) {
+        this.verbose = verbose;
+        /*
+         * Όταν verbose = true, και ο χρήστης καλεί την printRoute(), θα εμφανιστούν
+         * τόσο τα εμπόδια όσο και τα σημεία της διαδρομής. Αν είναι false, θα
+         * εμφανιστούν
+         * μόνο τα σημεία της διαδρομής. Αυτό μπορεί να είναι χρήσιμο για τον υπολογισμό
+         * κόστους
+         * της διαδρομής κτλ.
+         */
+    }
 
     // Προσθήκη σημείου στο τέλος της διαδρομής
     public void addStep(String location) {
@@ -27,7 +40,8 @@ public class WalkRoute {
         System.out.print("Route: ");
         while (current != null) {
             System.out.print(current.location);
-            if (current.next != null) System.out.print(" → ");
+            if (current.next != null)
+                System.out.print(" → ");
             current = current.next;
         }
         System.out.println();
@@ -35,7 +49,8 @@ public class WalkRoute {
 
     // Αφαίρεση σημείου από τη διαδρομή (π.χ. λόγω εμποδίου)
     public void avoidStep(String location) {
-        if (start == null) return;
+        if (start == null)
+            return;
 
         if (start.location.equals(location)) {
             start = start.next;
@@ -47,7 +62,11 @@ public class WalkRoute {
 
         while (current != null) {
             if (current.location.equals(location)) {
-                prev.next = current.next;
+                if (this.verbose) {
+                    insertBefore(current.next.location, prev.location);
+                } else {
+                    prev.next = current.next;
+                }
                 return;
             }
             prev = current;
@@ -57,7 +76,8 @@ public class WalkRoute {
 
     // Παρεμβολή σημείου πριν από συγκεκριμένο άλλο σημείο
     public void insertBefore(String target, String newStep) {
-        if (start == null) return;
+        if (start == null)
+            return;
 
         if (start.location.equals(target)) {
             RouteNode newNode = new RouteNode(newStep);

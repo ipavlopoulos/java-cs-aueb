@@ -2,7 +2,7 @@ package com.walkroute.llist;
 
 public class WalkRouteDemo {
     public static void main(String[] args) {
-        WalkRoute route = new WalkRoute();
+        WalkRoute route = new WalkRoute(true);
 
         route.addStep("Πλατεία Βικτωρίας");
         route.addStep("Μαυροματαίων");
