@@ -36,7 +36,7 @@ A pedestrian routing system on a city grid:
 
 ---
 
-### 🎯 `randomdemo/`
+### 🎯 `demo/`
 
 Demonstrates the difference between:
 
@@ -74,8 +74,8 @@ javac montyhall/app/Main.java
 java montyhall.app.Main
 
 # Or run another example
-javac randomdemo/RandomComparison.java
-java randomdemo.RandomComparison
+javac demo/RandomComparison.java
+java demo.RandomComparison
 ```
 
 ## ✏️ Contribution 
