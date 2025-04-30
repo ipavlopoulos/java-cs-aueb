@@ -1,5 +1,6 @@
 package demo.iterators;
 
+import java.util.Comparator;
 import java.util.PriorityQueue;
 
 public class PriorityQueueTest {
@@ -17,7 +18,14 @@ public class PriorityQueueTest {
 
         // Αντιστροφή προτεραιότητας
         pq = new PriorityQueue<>(
-                (a, b) -> Integer.compare(b, a)
+                new Comparator<>() {
+                    @Override
+                    public int compare(Integer a, Integer b) {
+                        return Integer.compare(b, a);
+                    }
+                }
+                // can be replaced by this lambda (Java 8+)
+                //(a, b) -> Integer.compare(b, a)
         );
 
         pq.offer(42);
