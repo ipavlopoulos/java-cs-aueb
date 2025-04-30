@@ -1,4 +1,4 @@
-package profiling.demos;
+package demo.profiling;
 
 import java.util.ArrayList;
 
