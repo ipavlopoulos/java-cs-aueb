@@ -2,6 +2,7 @@ package demo.iterators;
 // Working on the example of Deitel (pp 837, 9th edition)
 // re. Lists, LinkedLists and ListIterators.
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.ListIterator;
@@ -12,19 +13,22 @@ public class ListTest {
         String[] colors = {"black", "yellow", "green", "blue", "violet", "silver"};
         List<String> list1 = new LinkedList<>(); // Πρώτη λίστα χρωμάτων
 
-        // Προσθήκη κάθε χρώματος στη λίστα list1 (todo: bulk?)
-        for (String color : colors) {
-            list1.add(color);
-        }
+        // Προσθήκη κάθε χρώματος στη λίστα list1 (bulk)
+        // for (String color : colors) {list1.add(color);}
+        list1.addAll(Arrays.asList(colors)); // bulk
+        //list1 = new LinkedList<>(Arrays.asList(colors)); // simple
+        // why not Arrays.asList(colors)?
+        // see https://docs.oracle.com/javase/8/docs/api/java/util/Arrays.html#asList-T...-
+
 
         // Δημιουργία δεύτερου πίνακα με άλλα χρώματα
         String[] colors2 = {"gold", "white", "brown", "blue", "gray", "silver"};
         List<String> list2 = new LinkedList<>(); // Δεύτερη λίστα χρωμάτων
 
-        // Προσθήκη κάθε χρώματος στη λίστα list2 (todo: bulk?)
-        for (String color : colors2) {
-            list2.add(color);
-        }
+        // Προσθήκη κάθε χρώματος στη λίστα list2 (bulk)
+        //for (String color : colors2) {list2.add(color);}
+        list2.addAll(Arrays.asList(colors2));
+        //list2 = new LinkedList<>(Arrays.asList(colors2));
 
         // Συνένωση των δύο λιστών: προσθήκη όλων των στοιχείων της list2 στο τέλος της list1
         list1.addAll(list2);
