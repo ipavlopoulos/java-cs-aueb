@@ -1,4 +1,4 @@
-package demo.profiling;
+package profiling;
 
 import java.util.ArrayList;
 import java.util.Vector;
