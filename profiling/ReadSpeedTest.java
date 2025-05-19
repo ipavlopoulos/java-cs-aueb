@@ -10,11 +10,15 @@ public class ReadSpeedTest {
         System.out.println("Ανάγνωση με FileInputStream:");
         long time1 = readWithFileInputStream(filename);
 
-        System.out.println("\nΑνάγνωση με BufferedInputStream:");
+        System.out.println("Ανάγνωση με FileInputStream:");
         long time2 = readWithBufferedInputStream(filename);
 
+        System.out.println("\nΑνάγνωση με DIY buffer:");
+        long time3 = readWithFileInputStreamAndDIYBuffer(filename);
+
         System.out.printf("\nΚαθυστέρηση χωρίς buffer:  %.2f δευτερόλεπτα\n", time1 / 1000.0);
-        System.out.printf("Καθυστέρηση με buffer:      %.2f δευτερόλεπτα\n", time2 / 1000.0);
+        System.out.printf("\nΚαθυστέρηση me DIY buffer:  %.2f δευτερόλεπτα\n", time2/ 1000.0);
+        System.out.printf("Καθυστέρηση με buffer:      %.2f δευτερόλεπτα\n", time3 / 1000.0);
     }
 
     public static long readWithFileInputStream(String filename) throws IOException {
@@ -28,6 +32,22 @@ public class ReadSpeedTest {
         in.close();
         return System.currentTimeMillis() - start;
     }
+
+    public static long readWithFileInputStreamAndDIYBuffer(String filename) throws IOException {
+        FileInputStream in = new FileInputStream(filename);
+        long start = System.currentTimeMillis();
+
+        byte[] buffer = new byte[1024];
+        int bytesRead = in.read(buffer, 0, buffer.length);
+
+        while (bytesRead != -1) {
+            // διαβάζουμε byte-προς-byte
+        }
+
+        in.close();
+        return System.currentTimeMillis() - start;
+    }
+
 
     public static long readWithBufferedInputStream(String filename) throws IOException {
         BufferedInputStream in = new BufferedInputStream(new FileInputStream(filename));
