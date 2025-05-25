@@ -1,4 +1,4 @@
-package profiling;
+package gr.aueb.cs.profiling;
 
 public class PrimitiveVsWrapperBenchmark {
     public static void main(String[] args) {

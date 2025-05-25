@@ -1,4 +1,4 @@
-package profiling;
+package gr.aueb.cs.profiling;
 
 import java.util.ArrayList;
 import java.util.Vector;
