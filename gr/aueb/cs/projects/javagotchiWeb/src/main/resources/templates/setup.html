@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Javagotchi - Νέο Καταφύγιο</title>
+</head>
+<body>
+<h1>Γεια σου <span th:text="${username}"></span>!</h1>
+<p>Φαίνεται πως είναι η πρώτη σου φορά εδώ.</p>
+<p>Πόσα κλουβιά θα ήθελες να έχει το νέο σου καταφύγιο;</p>
+
+<form th:action="@{'/setup/' + ${username}}" method="post">
+    Αριθμός κλουβιών: <input type="number" name="cages" value="5" min="1" max="20"><br><br>
+    <button type="submit">Δημιουργία Καταφυγίου!</button>
+</form>
+</body>
+</html>
