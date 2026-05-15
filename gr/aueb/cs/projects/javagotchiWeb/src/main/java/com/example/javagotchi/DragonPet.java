@@ -1,26 +1,48 @@
 package com.example.javagotchi;
 
-public class DragonPet extends Pet{
+/**
+ * Αντιπροσωπεύει έναν Δράκο, έναν εξειδικευμένο τύπο κατοικιδίου.
+ * Ο Δράκος έχει διαφορετικούς ρυθμούς μείωσης στατιστικών και
+ * ειδικές προειδοποιήσεις κατάσταση όταν πεινάει.
+ */
+public class DragonPet extends Pet {
 
+    /**
+     * Δημιουργεί έναν νέο Δράκο με το καθορισμένο όνομα.
+     * * @param name Το όνομα του δράκου.
+     */
+    // Η ορατότητα επιπέδου πακέτου (package-private) διατηρείται για συνέπεια
+    // με τη βασική κλάση Pet, περιορίζοντας τη δημιουργία αντικειμένων
+    // εντός του συγκεκριμένου πακέτου.
     DragonPet(String name){
         super(name);
-    }//Constructor
+    }
 
-    public void tick(){ //Μειώνει το hunger κατά 2 και το happiness κατά 1
+    /**
+     * Προσομοιώνει το πέρασμα του χρόνου ειδικά για τον Δράκο.
+     * Ο Δράκος πεινάει πιο γρήγορα από τα απλά κατοικίδια,
+     * χάνοντας 2 μονάδες πείνας (hunger) ανά μονάδα χρόνου.
+     */
+    @Override
+    public void tick(){
         this.hunger -= 2;
-        this.happiness -=1;
-    }//tick()
+        this.happiness -= 1;
+    }
 
+    /**
+     * Επιστρέφει την κατάσταση του Δράκου, προσθέτοντας ειδικά εικονίδια
+     * και προειδοποιήσεις αν το επίπεδο πείνας είναι χαμηλό.
+     * * @return Ένα αλφαριθμητικό με την πλήρη κατάσταση και τυχόν προειδοποιήσεις.
+     */
+    @Override
     public String checkStatus(){
-        String finalString = " [ΔΡΑΚΟΣ \uD83D\uDC32]\n"+super.checkStatus();
+        String finalString = " [ΔΡΑΚΟΣ \uD83D\uDC32]\n" + super.checkStatus();
 
-        if (this.hunger<4){//Extra μήνυμα ότι βγάζει καπνούς αν η πείνα πέσει κάτω απο 4
-            finalString = finalString +"\n ΠΡΟΕΙΔΟΠΟΙΗΣΗ ! Το κατοικίδιο "+this.name+"βγάζει καπνούς!!!";
+        // Προσθήκη ειδικής οπτικής προειδοποίησης αν η πείνα πέσει κάτω από ένα όριο
+        if (this.hunger < 4){
+            finalString = finalString + "\n ΠΡΟΕΙΔΟΠΟΙΗΣΗ ! Το κατοικίδιο " + this.name + " βγάζει καπνούς!!!";
         }
 
         return finalString;
-
-    }//checkStatus()
-
-
+    }
 }

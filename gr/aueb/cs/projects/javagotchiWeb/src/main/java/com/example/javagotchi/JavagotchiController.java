@@ -4,57 +4,104 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@Controller // Δηλώνει ότι αυτή η κλάση διαχειρίζεται σελίδες Web
+/**
+ * Ο κύριος ελεγκτής (Controller) της εφαρμογής Javagotchi.
+ * Διαχειρίζεται όλα τα HTTP αιτήματα (requests) για την πλοήγηση των χρηστών,
+ * τη διαχείριση συνεδριών (μέσω του username στα URL) και τις αλληλεπιδράσεις
+ * με το καταφύγιο (υιοθεσία, τάισμα, παιχνίδι).
+ */
+@Controller
 public class JavagotchiController {
 
-    //Εμφάνιση της αρχικής σελίδας (Login)
+    /**
+     * Διαχειρίζεται το αρχικό αίτημα στην κεντρική σελίδα της εφαρμογής.
+     *
+     * @return Το όνομα του προτύπου (template) για τη σελίδα σύνδεσης.
+     */
     @GetMapping("/")
     public String index() {
-        return "index"; // Ψάχνει το αρχείο index.html στα templates
+        return "index";
     }
 
-    //Διαδικασία εισόδου χρήστη
+    /**
+     * Επεξεργάζεται την υποβολή της φόρμας εισόδου (login).
+     * Ελέγχει την ύπαρξη του χρήστη στο σύστημα ώστε να δρομολογήσει την κίνηση
+     * είτε στη σελίδα δημιουργίας νέου καταφυγίου, είτε απευθείας στο παιχνίδι.
+     *
+     * @param username Το όνομα χρήστη που υποβλήθηκε.
+     * @return Ένα HTTP redirect προς το κατάλληλο endpoint.
+     */
     @PostMapping("/login")
     public String login(@RequestParam String username) {
         if (ShelterManager.getInstance().userExists(username)) {
-            // Αν είναι παλιός, πάει κατευθείαν στο παιχνίδι
             return "redirect:/dashboard/" + username;
         } else {
-            // Αν είναι νέος, πάει στη σελίδα ρυθμίσεων
             return "redirect:/setup/" + username;
         }
     }
 
-    //Η σελίδα που ρωτάει για τα κλουβιά τους νέους χρήστες
+    /**
+     * Εμφανίζει τη σελίδα αρχικής ρύθμισης για νέους χρήστες.
+     * Περιλαμβάνει δικλείδα ασφαλείας που ανακατευθύνει τους ήδη εγγεγραμμένους χρήστες
+     * πίσω στο dashboard τους, αποτρέποντας την τυχαία επανεγγραφή των δεδομένων τους.
+     *
+     * @param username Το όνομα του χρήστη.
+     * @param model Το αντικείμενο Model του Spring για τη μεταφορά δεδομένων στο view.
+     * @return Το πρότυπο ρύθμισης ή ένα redirect στο dashboard.
+     */
     @GetMapping("/setup/{username}")
     public String setupPage(@PathVariable String username, Model model) {
         if (ShelterManager.getInstance().userExists(username)) {
-            return "redirect:/dashboard/" + username; // Αν υπάρχει ήδη, γυρνάει στο dashboard
+            return "redirect:/dashboard/" + username;
         }
         model.addAttribute("username", username);
         return "setup";
     }
 
-    //Αποθήκευση της επιλογής κλουβιών
+    /**
+     * Επεξεργάζεται τα αρχικά δεδομένα ρύθμισης και δεσμεύει χώρο για το νέο καταφύγιο.
+     *
+     * @param username Το όνομα του χρήστη.
+     * @param cages Ο αριθμός των κλουβιών που επέλεξε ο χρήστης.
+     * @return Ένα HTTP redirect προς το dashboard.
+     */
     @PostMapping("/setup/{username}")
     public String setupShelter(@PathVariable String username, @RequestParam int cages) {
         ShelterManager.getInstance().getOrCreateShelter(username, cages);
         return "redirect:/dashboard/" + username;
     }
 
-    //Εμφάνιση του καταφυγίου του χρήστη
+    /**
+     * Προβάλλει το κύριο περιβάλλον (dashboard) του καταφυγίου, τροφοδοτώντας την HTML
+     * με τα τρέχοντα δεδομένα των κατοικιδίων.
+     *
+     * @param username Το όνομα του χρήστη.
+     * @param model Το αντικείμενο Model του Spring.
+     * @return Το πρότυπο του dashboard ή redirect στην αρχική αν ο χρήστης είναι άκυρος.
+     */
     @GetMapping("/dashboard/{username}")
     public String dashboard(@PathVariable String username, Model model) {
         Pet[] shelter = ShelterManager.getInstance().getShelter(username);
 
-        if (shelter == null) return "redirect:/"; // Αν ο χρήστης δεν υπάρχει, γυρνάμε στην αρχή
+        if (shelter == null) return "redirect:/";
 
-        model.addAttribute("username", username); // Περνάμε το όνομα στην HTML
-        model.addAttribute("shelter", shelter);   // Περνάμε τον πίνακα με τα pets στην HTML
-        return "dashboard"; // Εμφανίζει το dashboard.html
+        model.addAttribute("username", username);
+        model.addAttribute("shelter", shelter);
+        return "dashboard";
     }
 
-    //Διαχείριση όλων των ενεργειών (adopt, feed, play)
+    /**
+     * Διαχειρίζεται όλες τις αλληλεπιδράσεις του χρήστη με το καταφύγιό του.
+     * Επιλέχθηκε ένας ενιαίος (unified) χειριστής (POST endpoint) για όλες τις ενέργειες
+     * προκειμένου να διατηρηθεί η λογική των φορμών απλή στην πλευρά του Thymeleaf.
+     *
+     * @param username Το όνομα του χρήστη.
+     * @param act Η ενέργεια που ζητήθηκε (adopt, feed, play, clean).
+     * @param type (Προαιρετικό) Το είδος του κατοικιδίου προς υιοθεσία.
+     * @param name (Προαιρετικό) Το όνομα του νέου κατοικιδίου.
+     * @param cageId (Προαιρετικό) Ο δείκτης (index) του κλουβιού στο οποίο εφαρμόζεται η ενέργεια.
+     * @return Ένα HTTP redirect πίσω στο dashboard για την άμεση οπτική ανανέωση της σελίδας.
+     */
     @PostMapping("/action/{username}")
     public String action(@PathVariable String username,
                          @RequestParam String act,
@@ -65,29 +112,33 @@ public class JavagotchiController {
         Pet[] shelter = ShelterManager.getInstance().getShelter(username);
         if (shelter == null) return "redirect:/";
 
-        if (act.equals("adopt")) {
-            // Ψάχνει το πρώτο άδειο κλουβί για το νέο pet
+        if (act.equalsIgnoreCase(ActionType.ADOPT.name())) {
+            // Διασχίζουμε τον πίνακα για να βρούμε την πρώτη μηδενική (null) θέση μνήμης.
+            // Αυτό διασφαλίζει ότι δεν θα αντικατασταθεί κατά λάθος ένα ήδη υπάρχον κατοικίδιο.
             for (int i = 0; i < shelter.length; i++) {
                 if (shelter[i] == null) {
-                    if ("Dragon".equals(type)) shelter[i] = new DragonPet(name);
-                    else if ("Slime".equals(type)) shelter[i] = new SlimePet(name);
-                    else shelter[i] = new Pet(name);
+                    if (type.equalsIgnoreCase(PetType.DRAGON.name())) {
+                        shelter[i] = new DragonPet(name);
+                    } else if (type.equalsIgnoreCase(PetType.SLIME.name())) {
+                        shelter[i] = new SlimePet(name);
+                    } else {
+                        shelter[i] = new Pet(name);
+                    }
                     break;
                 }
             }
         } else if (cageId != null && shelter[cageId] != null) {
-            // Εκτελεί την ενέργεια στο συγκεκριμένο κλουβί
-            if ("feed".equals(act)) {
+            if (act.equalsIgnoreCase(ActionType.FEED.name())) {
                 shelter[cageId].feed();
-            } else if ("play".equals(act)) {
+            } else if (act.equalsIgnoreCase(ActionType.PLAY.name())) {
                 shelter[cageId].play();
-            } else if ("clean".equals(act) && shelter[cageId].getHunger() <= 0) {
-                // Αν πατήσει clean ΚΑΙ το ζωάκι είναι νεκρό, αδειάζει το κλουβί
+            } else if (act.equalsIgnoreCase(ActionType.CLEAN.name()) && shelter[cageId].getHunger() <= 0) {
+                // Η ενέργεια 'clean' επιτρέπεται αυστηρά μόνο εάν το κατοικίδιο έχει πεθάνει
+                // (hunger <= 0), αποτρέποντας τη διαγραφή ζωντανών κατοικιδίων από τον πίνακα.
                 shelter[cageId] = null;
             }
         }
 
-        // Aνανέωση της σελίδα του dashboard μετά την ενέργεια
         return "redirect:/dashboard/" + username;
     }
 }

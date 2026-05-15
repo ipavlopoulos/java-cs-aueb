@@ -1,19 +1,48 @@
 package com.example.javagotchi;
 
-public class SlimePet extends Pet{
+/**
+ * Αντιπροσωπεύει ένα Slime, έναν ιδιαίτερο τύπο κατοικιδίου.
+ * Το Slime έχει τη μοναδική ιδιότητα να διατηρεί πάντα υψηλό
+ * επίπεδο ευτυχίας, ανεξάρτητα από το πέρασμα του χρόνου.
+ */
+public class SlimePet extends Pet {
+    private static int LEAST_HAPPINESS = 8;
 
+    /**
+     * Δημιουργεί ένα νέο Slime με το καθορισμένο όνομα.
+     *
+     * @param name Το όνομα του Slime.
+     */
+    // Η ορατότητα επιπέδου πακέτου (package-private) διατηρείται για συνέπεια
+    // με τη βασική κλάση Pet, περιορίζοντας τη δημιουργία αντικειμένων
+    // εντός του συγκεκριμένου πακέτου.
     SlimePet(String name){
         super(name);
-    }//Constructor
+    }
 
+    /**
+     * Προσομοιώνει το πέρασμα του χρόνου ειδικά για το Slime.
+     * Σε αντίθεση με τα απλά κατοικίδια, η ευτυχία του Slime
+     * δεν μπορεί να πέσει κάτω από ένα συγκεκριμένο επίπεδο (LEAST_HAPPINESS).
+     */
+    @Override
     public void tick(){
-        if (this.happiness>8){//Το happiness του slime ΔΕΝ μπορεί να πέσει κάτω απο 8
-            this.happiness -=1;
+        // Βάσει της λογικής του παιχνιδιού, τα Slimes είναι από τη φύση τους
+        // ανέμελα πλάσματα, γι' αυτό αποτρέπουμε την περαιτέρω μείωση της ευτυχίας.
+        if (this.happiness > LEAST_HAPPINESS){
+            this.happiness -= 1;
         }
-        this.hunger -=1;
-    }//tick()
+        this.hunger -= 1;
+    }
 
+    /**
+     * Επιστρέφει την κατάσταση του Slime, προσθέτοντας ένα χαρακτηριστικό
+     * μήνυμα και εικονίδιο πριν από τα βασικά στατιστικά.
+     *
+     * @return Ένα αλφαριθμητικό με την πλήρη κατάσταση του κατοικιδίου.
+     */
+    @Override
     public String checkStatus(){
-        return "[SLIME \uD83D\uDFE2] Jiggling...\n+"+super.checkStatus();
-    }//checkStatus()
+        return "[SLIME \uD83D\uDFE2] Jiggling...\n" + super.checkStatus();
+    }
 }
