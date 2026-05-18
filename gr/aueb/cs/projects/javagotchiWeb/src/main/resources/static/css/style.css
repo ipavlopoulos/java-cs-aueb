@@ -1,0 +1,131 @@
+/* Βασικό φόντο και γραμματοσειρά */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f9f9;
+    color: #333;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+}
+
+h1, h3 {
+    color: #2c3e50;
+}
+
+/* Σχεδιασμός Καρτών (Τα Κλουβιά) */
+.cage-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.cage {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 20px;
+    width: 260px;
+    text-align: left;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 2px solid #e0e0e0;
+}
+
+/* Εφέ όταν περνάει το ποντίκι πάνω από το κλουβί */
+.cage:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+/* Σχεδιασμός για το άδειο κλουβί */
+.cage.empty {
+    background: #f9f9f9;
+    border: 2px dashed #bdc3c7;
+    text-align: center;
+    color: #7f8c8d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 150px;
+}
+
+/* Κουμπιά (Τάισμα, Παιχνίδι) */
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-weight: bold;
+    margin: 5px;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+/* Απενεργοποιημένα Κουμπιά (Χορτάτο Ζωάκι) */
+button:disabled {
+    background-color: #bdc3c7;
+    color: #fff;
+    cursor: not-allowed;
+}
+
+/* Το κουτί που δείχνει το Status του κατοικιδίου */
+.status-box {
+    background: #ecf0f1;
+    padding: 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 14px;
+    white-space: pre-wrap;
+    margin-bottom: 15px;
+}
+
+/* Σχεδιασμός στις Φόρμες (Κουτάκια εισαγωγής κειμένου) */
+input[type="text"], input[type="number"], select {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin: 5px;
+}
+
+/* Container για τις μπάρες */
+.stats-container {
+    text-align: left;
+    margin: 10px 0;
+}
+
+.stats-container label {
+    display: block;
+    font-size: 12px;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+/* Βασικό στυλ της μπάρας */
+progress {
+    width: 100%;
+    height: 15px;
+    appearance: none; /* Αφαιρούμε το προεπιλεγμένο στυλ του browser */
+}
+
+progress::-webkit-progress-bar {
+    background-color: #eee;
+    border-radius: 10px;
+}
+
+/* Το χρώμα της μπάρας (Πράσινο) */
+progress::-webkit-progress-value {
+    background-color: #2ecc71;
+    border-radius: 10px;
+    transition: width 0.5s;
+}
+
+/* Χρώμα όταν η κατάσταση είναι κρίσιμη (Κόκκινο) */
+progress.low::-webkit-progress-value {
+    background-color: #e74c3c;
+}

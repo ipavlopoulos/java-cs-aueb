@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Javagotchi - Είσοδος</title>
+</head>
+<body>
+<h1>Καλώς ήρθες στο Javagotchi Web!</h1>
+<p>Δώσε το όνομα χρήστη σου για να ξεκινήσουμε.</p>
+
+<form action="/login" method="post">
+    Όνομα χρήστη: <input type="text" name="username" required><br><br>
+    <button type="submit">Είσοδος</button>
+</form>
+</body>
+</html>

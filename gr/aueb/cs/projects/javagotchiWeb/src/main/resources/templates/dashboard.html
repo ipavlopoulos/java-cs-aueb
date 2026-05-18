@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Javagotchi - Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h1>Καταφύγιο του χρήστη: <span th:text="${username}" style="color: #e74c3c;"></span></h1>
+<a href="/" style="color: #7f8c8d; text-decoration: none; font-weight: bold;">[⬅️ Έξοδος]</a>
+<hr style="border: 1px solid #eee; margin: 20px 0;">
+
+<h3>🐾 Υιοθεσία νέου Κατοικιδίου</h3>
+<form th:action="@{'/action/' + ${username}}" method="post">
+    Όνομα: <input type="text" name="name" required placeholder="π.χ. Rex">
+    Είδος:
+    <select name="type">
+        <option value="Simple">🐶 Simple Pet</option>
+        <option value="Dragon">🐉 Dragon</option>
+        <option value="Slime">🟢 Slime</option>
+    </select>
+    <input type="hidden" name="act" value="adopt">
+    <button type="submit" style="background-color: #2ecc71;">Υιοθεσία!</button>
+</form>
+
+<hr style="border: 1px solid #eee; margin: 20px 0;">
+
+<div class="cage-container">
+
+    <div th:each="pet, iter : ${shelter}" th:class="${pet != null} ? 'cage' : 'cage empty'">
+
+        <div th:if="${pet != null}">
+            <strong style="color: #34495e;">Κλουβί <span th:text="${iter.index}"></span></strong>
+
+            <div th:if="${pet.hunger > 0}">
+                <p style="font-weight: bold; margin-bottom: 5px;" th:text="${pet instanceof T(com.example.javagotchi.DragonPet) ? '🐉 Dragon' : (pet instanceof T(com.example.javagotchi.SlimePet) ? '🟢 Slime' : '🐶 Simple Pet')}"></p>
+                <p>Όνομα: <span th:text="${pet.name}" style="font-weight: bold;"></span></p>
+
+                <div class="stats-container">
+                    <label>Χορτάτο:</label>
+                    <progress th:value="${pet.hunger}" max="10" th:class="${pet.hunger < 3} ? 'low' : ''"></progress>
+
+                    <label>Χαρά:</label>
+                    <progress th:value="${pet.happiness}" max="10" th:class="${pet.happiness < 3} ? 'low' : ''"></progress>
+                </div>
+
+                <form th:action="@{'/action/' + ${username}}" method="post" style="text-align: center; margin-top: 10px;">
+                    <input type="hidden" name="cageId" th:value="${iter.index}">
+                    <button type="submit" name="act" value="feed" th:disabled="${pet.hunger >= 10}">Τάισμα 🍖</button>
+                    <button type="submit" name="act" value="play" th:disabled="${pet.happiness >= 10}">Παιχνίδι 🧶</button>
+                </form>
+            </div>
+
+            <div th:if="${pet.hunger <= 0}" style="text-align: center; color: #7f8c8d; margin-top: 15px;">
+                <div style="font-size: 50px;">🪦</div>
+                <p>Δυστυχώς το κατοικίδιο <br><strong><span th:text="${pet.name}"></span></strong> πέθανε !</p>
+
+                <form th:action="@{'/action/' + ${username}}" method="post">
+                    <input type="hidden" name="cageId" th:value="${iter.index}">
+                    <button type="submit" name="act" value="clean" style="background-color: #7f8c8d; width: 100%;">Καθαρισμός Κλουβιού</button>
+                </form>
+            </div>
+        </div>
+
+        <div th:if="${pet == null}">
+            <p>Άδειο κλουβί <span th:text="${iter.index}"></span></p>
+            <div style="font-size: 40px; opacity: 0.2;">🪹</div>
+        </div>
+
+    </div>
+
+</div>
+
+<br>
+<button onclick="location.reload()" style="background-color: #9b59b6;">🔄 Ανανέωση Κατάστασης</button>
+
+</body>
+</html>
