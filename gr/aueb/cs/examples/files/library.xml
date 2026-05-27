@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library>
+    <section name="Programming">
+        <book title="Effective Java" author="Joshua Bloch" year="2018" />
+        <book title="Clean Code" author="Robert C. Martin" year="2008" />
+    </section>
+    <section name="Computer Science">
+        <book title="Introduction to Algorithms" author="Cormen, Leiserson, Rivest, Stein" year="2022" />
+    </section>
+</library>
