@@ -9,8 +9,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * Handles persistent storage, reading and writing pet state to the local file system.
+ */
 public class StorageService {
 
+    /**
+     * Serializes the user's pet state to a JSON file.
+     * @param session The active user session to save.
+     */
     public static void savePet(UserSession session){
         try{
             GeneralPet pet = session.getMyPet();
@@ -34,6 +41,11 @@ public class StorageService {
         }
     }
 
+    /**
+     * Loads a user's pet state from a JSON file, calculates offline decay, and rebuilds the object.
+     * @param userId The Discord ID of the user.
+     * @return The rebuilt UserSession, or null if no save file exists or the pet died offline.
+     */
     public static UserSession loadPet(String userId){
         if (java.nio.file.Files.exists(java.nio.file.Path.of(userId+".txt"))) {
             try{
@@ -83,17 +95,13 @@ public class StorageService {
                     Files.deleteIfExists(Path.of(userId +".txt"));
                     System.out.println("[REAPER]: User " + userId + "'s daemon succumned to offline decay upon loading.");
                     return null;
-
                 }
-
 
                 currentUser.setMyPet(rebuiltPet);
                 currentUser.setPendingSpecies(petSpecies);
-                OllamaClient.wipeMemory(rebuiltPet.getIdentityPrompt(), currentUser);
+                OllamaClient.wipeMemory(rebuiltPet.getSystemPrompt(), currentUser);
 
                 savePet(currentUser);
-
-
                 return currentUser;
 
             }catch (Exception e){
@@ -103,14 +111,16 @@ public class StorageService {
         }else{
             return null;
         }
-
     }
 
+    /**
+     * Permanently deletes a user's pet data due to starvation/death.
+     * @param userId The Discord ID of the user whose pet is being deleted.
+     * @param channel The Discord channel to send the death alert to.
+     */
     public static void eradicatePet(String userId, MessageChannel channel){
         if (Main.pets.containsKey(userId)){
            UserSession doomedSession = Main.pets.remove(userId);
-
-
            if (doomedSession != null){
                if (doomedSession.activePrompt != null) {
                    doomedSession.activePrompt.cancel(true);

@@ -9,13 +9,18 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import java.util.concurrent.*;
 
+/**
+ * Event listener that catches Discord messages and routes them to the appropriate subsystem.
+ */
 public class CommandListener extends ListenerAdapter {
-//[Usage]: Sends messages to the user, while also communicates with the OllamaClient class and sends the result of the user's prompt.
 
+    /**
+     * Triggered every time a message is received in an accessible channel.
+     * @param event The MessageReceivedEvent object.
+     */
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
 
-        //If statement that check's whether the message was sent  by the user, or the bot
         User author = event.getAuthor();
         if (author.isBot()) {
             return;
@@ -27,8 +32,6 @@ public class CommandListener extends ListenerAdapter {
         String userInput;
         String userId = event.getAuthor().getId();
 
-
-        //If statement that checks whether the user already has a session or not.
         if (Main.pets.containsKey(userId)){
             currentUser = Main.pets.get(userId);
         }else {
@@ -38,15 +41,23 @@ public class CommandListener extends ListenerAdapter {
                     currentUser = new UserSession(userId);
                     Main.pets.put(userId, currentUser);
                     channel.sendMessage("Secure link initialized. Please check your private messages !").queue();
-                    event.getAuthor().openPrivateChannel().queue(dm -> dm.sendMessage("Hello User !!!").queue());
+                    
+                    final UserSession setupSession = currentUser;
+                    
+                    event.getAuthor().openPrivateChannel().queue(dm -> {
+                        // Print your exact three-message menu sequence directly in the DM
+                        dm.sendMessage("Welcome User").queue();
+                        dm.sendMessage("I am your personal pet, and assistant").queue();
+                        dm.sendMessage("Choose your daemon:\n1. Dog\n2. Cat\n3. Dragon \n4. Slime \nEnter the integer number of your pet.").queue();
+                        
+                        // Set state to 1 so the bot is ready to read the user's number choice
+                        setupSession.setSetupState(1); 
+                    });
                     return;
                 }else {
                     return;
                 }
-            }else {
-                Main.pets.put(userId, currentUser);
             }
-
         }
 
         if (currentUser.getSetupState() >= 0 && currentUser.getSetupState() <=2){
@@ -54,7 +65,7 @@ public class CommandListener extends ListenerAdapter {
                 SetupBot.handleSetup(event, currentUser);
                 return;
             }else{
-                channel.sendMessage("[System]: To set up your bot, move to your private conversations. ");
+                channel.sendMessage("[System]: To set up your bot, move to your private conversations. ").queue();
             }
         }else if (currentUser.getSetupState() == 3){
             if (event.getChannelType() != ChannelType.PRIVATE) {
@@ -63,9 +74,13 @@ public class CommandListener extends ListenerAdapter {
                 processChat(event, currentUser);
             }
         }
-
     }
 
+    /**
+     * Processes commands or sends conversational text to the Ollama backend.
+     * @param event The message event.
+     * @param currentUser The user's active session.
+     */
     private void processChat(MessageReceivedEvent event, UserSession currentUser) {
         MessageChannelUnion channel = event.getChannel();
         String userInput = event.getMessage().getContentRaw();
@@ -102,14 +117,14 @@ public class CommandListener extends ListenerAdapter {
                         "**!delete:** Delete chat history.\n" +
                         "**!stop:** Stops your last prompt from being answered.\n" +
                         "**!save:** Force manual state snapshot to persistent OS disk.\n" +
-                        "**!ping**  Responds with Pong.").queue();
+                        "**!ping** Responds with Pong.").queue();
             } else if (userInput.equals("!sound")) {
                 currentPet.makeSound(channel);
             }else if (userInput.equals("!delete")) {
                 if (currentUser.activePrompt != null){
                     currentUser.activePrompt.cancel(true);
                 }
-                OllamaClient.wipeMemory(currentPet.getIdentityPrompt(), currentUser);
+                OllamaClient.wipeMemory(currentPet.getSystemPrompt(), currentUser);
                 channel.sendMessage("Memory wiped. Persona re-initialized.").queue();
             } else if (userInput.equals("!ping")) {
                 channel.sendMessage("Pong!").queue();
@@ -134,6 +149,11 @@ public class CommandListener extends ListenerAdapter {
             return OllamaClient.sendPrompt(userInput, history);
         }).thenAccept(response -> {
             channel.sendMessage(response).queue();
+        }).exceptionally(ex -> {
+            // If the thread crashes or times out, it will now print the error and tell the user!
+            channel.sendMessage("[System Error]: The neural link timed out or encountered a threading error. Please try again.").queue();
+            ex.printStackTrace();
+            return null;
         });
     }
 }

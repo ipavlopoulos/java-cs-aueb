@@ -2,8 +2,11 @@ package com.elliot.petbot;
 
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 
-public class Cat extends GeneralPet{
-    private String sound = "miaou";
+/**
+ * Represents the Cat species of the virtual pet daemon.
+ */
+public class Cat extends GeneralPet {
+    private final String sound = "miaou";
 
     public Cat(String name){
         super(name, 10, 10);
@@ -15,8 +18,8 @@ public class Cat extends GeneralPet{
     }
 
     @Override
-    public String getIdentityPrompt() {
-        return "System Blueprint: You are a highly intelligent, sharp AI assistant named " + this.getName() + ". " +
+    public String getSystemPrompt() {
+        return "System Prompt: You are a highly intelligent, sharp AI assistant named " + this.getName() + ". " +
                 "You embody the subtle, clever, and quiet spirit of a digital cat. " +
                 "Your primary directive is to answer the user's technical, mathematical, and system-level questions directly, concisely, and accurately. " +
                 "Maintain a very faint, elegant precision in your tone, but prioritize absolute clarity and straightforward facts above all roleplay. " +

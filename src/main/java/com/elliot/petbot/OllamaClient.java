@@ -10,19 +10,25 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 
+/**
+ * Handles REST API communication with the local Ollama LLM instance.
+ */
 public class OllamaClient {
 
-    // 1. We switch to the /chat endpoint
-    private static final String OLLAMA_CHAT_ENDPOINT = "http://localhost:11434/api/chat";
-    private static final String AI_MODEL = "llama3.2:1b";
-    private static final HttpClient client = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(20)).build();
+    // Pull configurations from Environment Variables if available, otherwise use defaults.
+    private static final String OLLAMA_CHAT_ENDPOINT = System.getenv("OLLAMA_URL") != null ? System.getenv("OLLAMA_URL") : "http://localhost:11434/api/chat";
+    private static final String AI_MODEL = System.getenv("OLLAMA_MODEL") != null ? System.getenv("OLLAMA_MODEL") : "llama3.2:1b";
+    
+    private static final HttpClient client = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(120)).build();
 
-    // 2. The Hippocampus: This array stores the entire conversation history
-
+    /**
+     * Sends a user message to the local AI and appends it to the memory bank.
+     * @param userMessage The message input from the user.
+     * @param messageHistory The JsonArray representing the conversation history.
+     * @return The AI's response as a string.
+     */
     public static String sendPrompt(String userMessage, JsonArray messageHistory) {
-
         try {
-            // 3. Package the user's new message and add it to the memory bank
             JsonObject userMsg = new JsonObject();
             userMsg.addProperty("role", "user");
             userMsg.addProperty("content", userMessage);
@@ -31,28 +37,22 @@ public class OllamaClient {
             synchronized (messageHistory) {
                 messageHistory.add(userMsg);
 
-
-                // 4. Build the payload, sending the ENTIRE messageHistory array
                 JsonObject requestJson = new JsonObject();
                 requestJson.addProperty("model", AI_MODEL);
                 requestJson.add("messages", messageHistory);
                 requestJson.addProperty("stream", false);
 
                 payloadString = requestJson.toString();
-
             }
 
             HttpRequest request = HttpRequest.newBuilder().uri(URI.create(OLLAMA_CHAT_ENDPOINT)).header("Content-Type", "application/json").POST(HttpRequest.BodyPublishers.ofString(payloadString)).build();
-
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() == 200) {
-                // 5. The /chat endpoint returns a slightly different JSON structure
                 JsonObject responseJson = JsonParser.parseString(response.body()).getAsJsonObject();
                 JsonObject aiMessage = responseJson.getAsJsonObject("message");
                 String aiText = aiMessage.get("content").getAsString();
 
-                // 6. Save the AI's response to the memory bank so it remembers it next time
                 JsonObject botMsg = new JsonObject();
                 botMsg.addProperty("role", "assistant");
                 botMsg.addProperty("content", aiText);
@@ -60,7 +60,6 @@ public class OllamaClient {
                 synchronized (messageHistory){
                     messageHistory.add(botMsg);
                 }
-
 
                 return aiText;
             } else {
@@ -72,14 +71,21 @@ public class OllamaClient {
             return "[System Error]: Failed to connect to local AI. Is Ollama running?";
         }
     }
-    //Creates a new chat history for the user.
+
+    /**
+     * Wipes the memory bank completely, creating a fresh chat history.
+     * @param session The user session whose memory should be wiped.
+     */
     public static void wipeMemory(UserSession session) {
         session.setMessageHistory(new JsonArray());
     }
 
-    //A method to wipe the memory when we stop the chat, and create a new history, importing the persona of the bot inside it.
-    public static void wipeMemory(String identity,  UserSession session) {
-
+    /**
+     * Wipes the memory bank and re-injects the system prompt to establish the bot's persona.
+     * @param identity The system prompt establishing the bot's behavior.
+     * @param session The user session whose memory should be wiped.
+     */
+    public static void wipeMemory(String identity, UserSession session) {
         JsonObject object = new JsonObject();
         JsonArray freshHistory = new JsonArray();
         object.addProperty("role", "system");
