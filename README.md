@@ -1,87 +1,131 @@
 # Java Examples Collection
 
-> Designed for the AUEB CS BSc Java Course
->> https://eclass.aueb.gr/courses/INF176/
+Designed for the AUEB CS BSc Java Course:
+https://eclass.aueb.gr/courses/INF176/
 
-This repository contains a collection of Java programming examples used for teaching core object-oriented programming (OOP) concepts in an engaging and applied way. Each example is organized as a separate package/module, and includes working code, documentation, and console interaction.
+This repository contains small, runnable Java examples and course projects used
+to teach core programming and object-oriented programming concepts. Topic-based
+examples live under `gr/aueb/cs/examples`, while larger mini-projects live under
+`gr/aueb/cs/projects`.
 
-## 📁 Project Structure
+## Project Structure
 
-Each top-level package contains a complete, runnable Java example:
+### `gr/aueb/cs/examples/introduction`
 
----
+Introductory Java examples covering variables, control flow, simple classes, and
+basic simulation.
 
-### 🎲 `montyhall/`
+### `gr/aueb/cs/examples/strings`
 
-A full implementation of the Monty Hall game:
+Examples for working with Java strings and common string operations.
 
-- OOP structure (`Door`, `MontyHallGame`, `Strategy`)
-- Interactive version (console-based)
-- Simulator to run thousands of trials
-- Visual comparison of strategies (switch vs stay)
+### `gr/aueb/cs/examples/inheritance`
 
-➡️ Teaches: classes, interfaces, composition, simulations, user interaction
+Examples for inheritance, `final`, dynamic binding, and polymorphism.
 
----
+### `gr/aueb/cs/examples/abstraction`
 
-### 🚶 `walkroutes/`
+Examples for abstract classes and salary-based employee models.
 
-A pedestrian routing system on a city grid:
+### `gr/aueb/cs/examples/interfaces`
 
-- Location graph representation
-- Obstacle-aware pathfinding
-- Modular packages: `model`, `routing`, `map`, `simulation`
+Small demonstrations of interfaces and interface-based design.
 
-➡️ Teaches: graphs, modular design, file input, BFS-style logic
+### `gr/aueb/cs/examples/collections`
 
----
+Examples using Java collections such as lists, queues, iterators, and traversal
+patterns.
 
-### 🎯 `demo/`
+### `gr/aueb/cs/examples/generics`
 
-Demonstrates the difference between:
+Examples for generic classes, generic methods, bounded type parameters,
+comparators, sorting, and type erasure.
 
-- `Math.random()` (static, simple, no seed)
-- `Random` class (object-based, supports seeding)
-- Repeatable pseudo-randomness
+### `gr/aueb/cs/examples/exceptions`
 
-➡️ Teaches: randomness, testing, debugging with seeded values
+Examples for exception handling, throwing exceptions, and safer error handling.
 
----
+### `gr/aueb/cs/examples/files`
 
-### 🏨 `hotelbooking/` *(optional extension)*
+Examples for reading and writing files, UTF-8 text, URLs, and CSV-style input.
 
-Simulates a basic hotel booking system with multiple room types.
+### `gr/aueb/cs/examples/unit`
 
-➡️ Teaches: inheritance, encapsulation, polymorphism
+A small calculator example with a matching unit test.
 
----
+### `gr/aueb/cs/examples/profiling`
 
-### 🎬 `movies/` *(optional extension)*
+Simple performance and profiling examples comparing data structures, primitive
+types, wrapper types, and buffer capacity choices.
 
-Loads movie reviews from a file and filters recommendations by genre, rating, or sentiment.
+### `gr/aueb/cs/examples/graphics`
 
-➡️ Teaches: file I/O, `ArrayList`, filtering, basic NLP
+Graphical Java examples, including a tag cloud visualization.
 
----
+### `gr/aueb/cs/examples/sound`
 
-## 🧪 How to Run
+Audio-related examples, including a simple alarm demo.
 
-Use the terminal or your favorite IDE (e.g., IntelliJ, Eclipse):
+### `gr/aueb/cs/examples/review`
+
+Review examples for dynamic dispatch, constructors, exceptions, anonymous
+classes, and randomness.
+
+### `gr/aueb/cs/projects`
+
+Larger examples and student-friendly mini-projects:
+
+- `montyhall`: Monty Hall game logic, strategies, console UI, and simulation.
+- `walkroute`: Walking route demos using linked structures, search, and agents.
+- `captcha`: A simple CAPTCHA generator and checker.
+- `javagotchi`: A virtual pet project.
+- `javagotchiWeb`: A Spring Boot web version of the Javagotchi project.
+
+## How to Run
+
+From the repository root, compile and run a single class by using its package
+path. For example:
 
 ```bash
-# Compile from src root
-javac montyhall/app/Main.java
-java montyhall.app.Main
-
-# Or run another example
-javac demo/RandomComparison.java
-java demo.RandomComparison
+javac gr/aueb/cs/examples/introduction/Variables.java
+java gr.aueb.cs.examples.introduction.Variables
 ```
 
-## ✏️ Contribution 
+Another example:
 
-To contribute to this repo, [this cheatsheet](/git_cheatsheet.md) may help with the first steps. 
+```bash
+javac gr/aueb/cs/examples/inheritance/Polymorphism.java
+java gr.aueb.cs.examples.inheritance.Polymorphism
+```
 
-## 📄 License
+For examples that define multiple classes in the same package, compile the
+source file and then run the public class:
+
+```bash
+javac gr/aueb/cs/examples/interfaces/Demo.java
+java gr.aueb.cs.examples.interfaces.Demo
+```
+
+The Spring Boot project has its own README:
+
+```text
+gr/aueb/cs/projects/javagotchiWeb/README.md
+```
+
+## Running Tests
+
+The `gr/aueb/cs/examples/unit` package contains small JUnit 5 tests for the
+calculator example. Run them from the repository root with:
+
+```bash
+mvn test
+```
+
+## Contributing
+
+To contribute to this repository, the [Git cheatsheet](git_cheatsheet.md) may
+help with the first steps.
+
+## License
 
 This project is licensed under the [MIT License](LICENSE).
